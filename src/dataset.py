@@ -21,6 +21,7 @@ def get_dataset(number_of_samples: int, param: float, number_of_diffrent_sets: i
     x = np.linspace(start, stop, number_of_samples_per_set)
     if number_of_diffrent_sets == 1:
         sets = [1.0]
+        sets = np.array(sets)
     elif number_of_diffrent_sets == 2:
         sets = [0.5, 1.0]
         sets = np.array(sets)
