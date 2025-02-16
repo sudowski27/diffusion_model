@@ -1,4 +1,4 @@
-"""version 0.1.0"""
+"""version 0.1.1"""
 import torch
 from torch import nn
 
@@ -18,7 +18,9 @@ class Decoder(nn.Module):
                     nn.ReLU(),
                     nn.Linear(layer_widths[2], layer_widths[3]),
                     nn.ReLU(),
-                    nn.Linear(layer_widths[3], layer_widths[4])
+                    nn.Linear(layer_widths[3], layer_widths[4]),
+                    nn.ReLU(),
+                    nn.Linear(layer_widths[4], layer_widths[5])
                 ) for _ in range(timesteps)
             ]
         )
@@ -29,4 +31,9 @@ class Decoder(nn.Module):
         """
         x = self.network_list[t](x)
 
-        return x
+        mu, h = torch.chunk(x, 2)
+
+        var = torch.exp(h)
+        std = torch.sqrt(var)
+
+        return mu, std
